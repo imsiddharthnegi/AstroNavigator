@@ -1,0 +1,521 @@
+/* AstroMissionSim - Space-themed CSS */
+
+/* CSS Variables for Space Theme */
+:root {
+    --space-dark: #0a0a0a;
+    --space-blue: #1a237e;
+    --space-light-blue: #3f51b5;
+    --space-accent: #ff5722;
+    --space-secondary: #37474f;
+    --space-text: #e3f2fd;
+    --space-muted: #90a4ae;
+    --success-space: #4caf50;
+    --warning-space: #ff9800;
+    --danger-space: #f44336;
+    --info-space: #2196f3;
+}
+
+/* Body and Base Styles */
+body {
+    background: var(--space-dark);
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="star" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:white;stop-opacity:1" /><stop offset="100%" style="stop-color:white;stop-opacity:0" /></radialGradient></defs><rect width="100%" height="100%" fill="%23000014"/><circle cx="100" cy="100" r="1" fill="url(%23star)"/><circle cx="300" cy="200" r="0.5" fill="url(%23star)"/><circle cx="500" cy="150" r="0.8" fill="url(%23star)"/><circle cx="700" cy="300" r="0.6" fill="url(%23star)"/><circle cx="200" cy="400" r="0.4" fill="url(%23star)"/><circle cx="800" cy="500" r="0.7" fill="url(%23star)"/><circle cx="150" cy="600" r="0.5" fill="url(%23star)"/><circle cx="450" cy="700" r="0.9" fill="url(%23star)"/><circle cx="650" cy="800" r="0.6" fill="url(%23star)"/><circle cx="900" cy="100" r="0.8" fill="url(%23star)"/></svg>');
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--space-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* Navigation */
+.navbar {
+    background: linear-gradient(135deg, var(--space-blue), var(--space-light-blue)) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--space-text) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--space-text) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--space-accent) !important;
+}
+
+/* Main Content */
+.main-content {
+    padding-top: 80px;
+    min-height: 100vh;
+}
+
+/* Cards */
+.card {
+    background: rgba(26, 35, 126, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--space-blue), var(--space-light-blue));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.card-body {
+    color: var(--space-text);
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, var(--space-light-blue), var(--space-blue));
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--space-blue), var(--space-light-blue));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(63, 81, 181, 0.4);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--space-light-blue);
+    color: var(--space-light-blue);
+    background: transparent;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: var(--space-light-blue);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-space), #388e3c);
+    border: none;
+    border-radius: 8px;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning-space), #f57c00);
+    border: none;
+    border-radius: 8px;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger-space), #d32f2f);
+    border: none;
+    border-radius: 8px;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--info-space), #1976d2);
+    border: none;
+    border-radius: 8px;
+}
+
+/* Forms */
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--space-text);
+    backdrop-filter: blur(5px);
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--space-light-blue);
+    box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25);
+    color: var(--space-text);
+}
+
+.form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--space-text);
+    backdrop-filter: blur(5px);
+}
+
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--space-light-blue);
+    box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25);
+    color: var(--space-text);
+}
+
+.form-label {
+    color: var(--space-text);
+    font-weight: 500;
+}
+
+.form-text {
+    color: var(--space-muted);
+}
+
+/* Tables */
+.table {
+    color: var(--space-text);
+}
+
+.table-dark {
+    background: rgba(26, 35, 126, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-hover > tbody > tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Badges */
+.badge {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--space-light-blue), var(--space-blue)) !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, var(--success-space), #388e3c) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, var(--warning-space), #f57c00) !important;
+}
+
+.bg-danger {
+    background: linear-gradient(135deg, var(--danger-space), #d32f2f) !important;
+}
+
+.bg-info {
+    background: linear-gradient(135deg, var(--info-space), #1976d2) !important;
+}
+
+/* Progress Bars */
+.progress {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, var(--space-light-blue), var(--space-blue));
+    border-radius: 8px;
+    transition: width 0.6s ease;
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.alert-success {
+    background: rgba(76, 175, 80, 0.2);
+    color: var(--success-space);
+    border-left: 4px solid var(--success-space);
+}
+
+.alert-warning {
+    background: rgba(255, 152, 0, 0.2);
+    color: var(--warning-space);
+    border-left: 4px solid var(--warning-space);
+}
+
+.alert-danger {
+    background: rgba(244, 67, 54, 0.2);
+    color: var(--danger-space);
+    border-left: 4px solid var(--danger-space);
+}
+
+.alert-info {
+    background: rgba(33, 150, 243, 0.2);
+    color: var(--info-space);
+    border-left: 4px solid var(--info-space);
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 60px 0;
+    background: linear-gradient(135deg, rgba(26, 35, 126, 0.1), rgba(63, 81, 181, 0.1));
+    border-radius: 20px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.hero-section h1 {
+    background: linear-gradient(135deg, var(--space-light-blue), var(--space-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Feature Cards */
+.feature-card {
+    background: rgba(26, 35, 126, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.feature-icon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Statistics Cards */
+.stat-card {
+    background: rgba(26, 35, 126, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card h3 {
+    color: var(--space-light-blue);
+    font-weight: bold;
+}
+
+/* Gradients */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--space-light-blue), var(--space-blue)) !important;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, var(--space-dark), var(--space-secondary)) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Pagination */
+.pagination .page-link {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--space-text);
+}
+
+.pagination .page-link:hover {
+    background: var(--space-light-blue);
+    border-color: var(--space-light-blue);
+    color: white;
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--space-light-blue);
+    border-color: var(--space-light-blue);
+}
+
+/* Mission Form Specific */
+.mission-form .form-floating > label {
+    color: var(--space-muted);
+}
+
+.mission-form .form-floating > .form-control:focus ~ label {
+    color: var(--space-light-blue);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .stat-card {
+        margin-bottom: 20px;
+    }
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+    animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid var(--space-light-blue);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--space-light-blue);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--space-blue);
+}
+
+/* Text Colors */
+.text-primary {
+    color: var(--space-light-blue) !important;
+}
+
+.text-muted {
+    color: var(--space-muted) !important;
+}
+
+/* Mission Status Indicators */
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.status-draft {
+    background: var(--space-muted);
+}
+
+.status-analyzing {
+    background: var(--info-space);
+    animation: pulse 2s infinite;
+}
+
+.status-completed {
+    background: var(--success-space);
+}
+
+.status-failed {
+    background: var(--danger-space);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Chart Containers */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+/* Special Effects */
+.glow {
+    box-shadow: 0 0 20px rgba(63, 81, 181, 0.5);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 30px rgba(63, 81, 181, 0.7);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Mission Preview */
+.mission-preview {
+    background: rgba(26, 35, 126, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Risk Level Colors */
+.risk-low {
+    color: var(--success-space);
+}
+
+.risk-medium {
+    color: var(--warning-space);
+}
+
+.risk-high {
+    color: var(--danger-space);
+}
+
+.risk-critical {
+    color: var(--danger-space);
+    font-weight: bold;
+}
+
+/* Utility Classes */
+.space-bg {
+    background: var(--space-dark);
+}
+
+.space-text {
+    color: var(--space-text);
+}
+
+.space-muted {
+    color: var(--space-muted);
+}
+
+.space-border {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}

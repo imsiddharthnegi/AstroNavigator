@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+    <defs>
+        <!-- Gradient for space background -->
+        <radialGradient id="spaceGradient" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" style="stop-color:#1a237e;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#0d47a1;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#000051;stop-opacity:1" />
+        </radialGradient>
+        
+        <!-- Star gradient -->
+        <radialGradient id="starGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+            <stop offset="70%" style="stop-color:#ffffff;stop-opacity:0.8" />
+            <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+        </radialGradient>
+        
+        <!-- Planet gradient -->
+        <radialGradient id="planetGradient" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" style="stop-color:#ff5722;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#d84315;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#bf360c;stop-opacity:1" />
+        </radialGradient>
+        
+        <!-- Nebula gradient -->
+        <radialGradient id="nebulaGradient" cx="50%" cy="50%" r="80%">
+            <stop offset="0%" style="stop-color:#3f51b5;stop-opacity:0.3" />
+            <stop offset="50%" style="stop-color:#2196f3;stop-opacity:0.2" />
+            <stop offset="100%" style="stop-color:#03a9f4;stop-opacity:0.1" />
+        </radialGradient>
+        
+        <!-- Shooting star gradient -->
+        <linearGradient id="shootingStarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+            <stop offset="70%" style="stop-color:#ffffff;stop-opacity:0.8" />
+            <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Space background -->
+    <rect width="100%" height="100%" fill="url(#spaceGradient)"/>
+    
+    <!-- Large nebula cloud -->
+    <ellipse cx="1400" cy="300" rx="400" ry="200" fill="url(#nebulaGradient)" opacity="0.6"/>
+    
+    <!-- Distant planet -->
+    <circle cx="1600" cy="200" r="60" fill="url(#planetGradient)" opacity="0.8"/>
+    
+    <!-- Planet rings -->
+    <ellipse cx="1600" cy="200" rx="80" ry="15" fill="none" stroke="#ff5722" stroke-width="2" opacity="0.5"/>
+    <ellipse cx="1600" cy="200" rx="95" ry="20" fill="none" stroke="#ff5722" stroke-width="1" opacity="0.3"/>
+    
+    <!-- Stars - scattered across the sky -->
+    <circle cx="150" cy="100" r="2" fill="url(#starGradient)"/>
+    <circle cx="280" cy="150" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="420" cy="80" r="1" fill="url(#starGradient)"/>
+    <circle cx="580" cy="200" r="2.5" fill="url(#starGradient)"/>
+    <circle cx="720" cy="120" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="850" cy="180" r="1" fill="url(#starGradient)"/>
+    <circle cx="980" cy="90" r="2" fill="url(#starGradient)"/>
+    <circle cx="1120" cy="160" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1250" cy="110" r="1" fill="url(#starGradient)"/>
+    <circle cx="1380" cy="140" r="2" fill="url(#starGradient)"/>
+    <circle cx="1520" cy="90" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1650" cy="120" r="1" fill="url(#starGradient)"/>
+    <circle cx="1780" cy="170" r="2" fill="url(#starGradient)"/>
+    <circle cx="1850" cy="80" r="1.5" fill="url(#starGradient)"/>
+    
+    <!-- More stars in middle section -->
+    <circle cx="100" cy="400" r="1" fill="url(#starGradient)"/>
+    <circle cx="250" cy="450" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="400" cy="380" r="2" fill="url(#starGradient)"/>
+    <circle cx="550" cy="480" r="1" fill="url(#starGradient)"/>
+    <circle cx="700" cy="420" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="850" cy="460" r="1" fill="url(#starGradient)"/>
+    <circle cx="1000" cy="400" r="2" fill="url(#starGradient)"/>
+    <circle cx="1150" cy="440" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1300" cy="380" r="1" fill="url(#starGradient)"/>
+    <circle cx="1450" cy="470" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1600" cy="410" r="1" fill="url(#starGradient)"/>
+    <circle cx="1750" cy="450" r="2" fill="url(#starGradient)"/>
+    <circle cx="1850" cy="390" r="1.5" fill="url(#starGradient)"/>
+    
+    <!-- Lower section stars -->
+    <circle cx="80" cy="700" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="200" cy="750" r="1" fill="url(#starGradient)"/>
+    <circle cx="350" cy="680" r="2" fill="url(#starGradient)"/>
+    <circle cx="500" cy="780" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="650" cy="720" r="1" fill="url(#starGradient)"/>
+    <circle cx="800" cy="760" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="950" cy="700" r="2" fill="url(#starGradient)"/>
+    <circle cx="1100" cy="740" r="1" fill="url(#starGradient)"/>
+    <circle cx="1250" cy="680" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1400" cy="770" r="1" fill="url(#starGradient)"/>
+    <circle cx="1550" cy="710" r="2" fill="url(#starGradient)"/>
+    <circle cx="1700" cy="750" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1850" cy="690" r="1" fill="url(#starGradient)"/>
+    
+    <!-- Bottom section stars -->
+    <circle cx="120" cy="900" r="1" fill="url(#starGradient)"/>
+    <circle cx="270" cy="950" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="420" cy="880" r="1" fill="url(#starGradient)"/>
+    <circle cx="570" cy="980" r="2" fill="url(#starGradient)"/>
+    <circle cx="720" cy="920" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="870" cy="960" r="1" fill="url(#starGradient)"/>
+    <circle cx="1020" cy="900" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1170" cy="940" r="1" fill="url(#starGradient)"/>
+    <circle cx="1320" cy="880" r="2" fill="url(#starGradient)"/>
+    <circle cx="1470" cy="970" r="1.5" fill="url(#starGradient)"/>
+    <circle cx="1620" cy="910" r="1" fill="url(#starGradient)"/>
+    <circle cx="1770" cy="950" r="1.5" fill="url(#starGradient)"/>
+    
+    <!-- Shooting star trail -->
+    <path d="M 200 250 Q 400 350 600 450" stroke="url(#shootingStarGradient)" stroke-width="3" fill="none" opacity="0.7"/>
+    <circle cx="200" cy="250" r="3" fill="url(#starGradient)"/>
+    
+    <!-- Constellation lines (Big Dipper inspired) -->
+    <g stroke="#ffffff" stroke-width="0.5" opacity="0.3" fill="none">
+        <path d="M 300 500 L 400 520 L 500 500 L 600 480 L 700 460 L 800 440 L 850 420"/>
+        <path d="M 500 500 L 550 560"/>
+    </g>
+    
+    <!-- Constellation stars -->
+    <circle cx="300" cy="500" r="2" fill="url(#starGradient)"/>
+    <circle cx="400" cy="520" r="2" fill="url(#starGradient)"/>
+    <circle cx="500" cy="500" r="2" fill="url(#starGradient)"/>
+    <circle cx="600" cy="480" r="2" fill="url(#starGradient)"/>
+    <circle cx="700" cy="460" r="2" fill="url(#starGradient)"/>
+    <circle cx="800" cy="440" r="2" fill="url(#starGradient)"/>
+    <circle cx="850" cy="420" r="2" fill="url(#starGradient)"/>
+    <circle cx="550" cy="560" r="2" fill="url(#starGradient)"/>
+    
+    <!-- Distant galaxy -->
+    <ellipse cx="1200" cy="800" rx="80" ry="30" fill="url(#nebulaGradient)" opacity="0.4"/>
+    
+    <!-- Satellite or space station -->
+    <g transform="translate(1000, 600)">
+        <rect x="-20" y="-5" width="40" height="10" fill="#cccccc" opacity="0.8"/>
+        <rect x="-30" y="-2" width="10" height="4" fill="#999999" opacity="0.8"/>
+        <rect x="20" y="-2" width="10" height="4" fill="#999999" opacity="0.8"/>
+        <circle cx="0" cy="0" r="2" fill="#ff5722" opacity="0.9"/>
+    </g>
+    
+    <!-- Asteroids -->
+    <circle cx="400" cy="600" r="3" fill="#666666" opacity="0.7"/>
+    <circle cx="450" cy="620" r="2" fill="#666666" opacity="0.7"/>
+    <circle cx="480" cy="580" r="1.5" fill="#666666" opacity="0.7"/>
+    
+    <!-- Comet with tail -->
+    <g transform="translate(1300, 500)">
+        <circle cx="0" cy="0" r="4" fill="#ffffff" opacity="0.9"/>
+        <path d="M 0 0 Q -50 20 -100 40 Q -80 30 -60 20 Q -40 15 -20 10 Q -10 5 0 0" fill="#ffffff" opacity="0.3"/>
+    </g>
+    
+    <!-- Aurora-like effect -->
+    <path d="M 0 300 Q 200 280 400 300 Q 600 320 800 300 Q 1000 280 1200 300 Q 1400 320 1600 300 Q 1800 280 1920 300 L 1920 350 Q 1800 330 1600 350 Q 1400 370 1200 350 Q 1000 330 800 350 Q 600 370 400 350 Q 200 330 0 350 Z" fill="url(#nebulaGradient)" opacity="0.2"/>
+    
+    <!-- Twinkling effect for some stars -->
+    <circle cx="580" cy="200" r="2.5" fill="url(#starGradient)">
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1380" cy="140" r="2" fill="url(#starGradient)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1000" cy="400" r="2" fill="url(#starGradient)">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+</svg>
