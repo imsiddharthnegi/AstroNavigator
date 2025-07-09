@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Create New Mission - AstroMission{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title mb-0 cosmic-text">
+                    <i class="fas fa-plus me-2"></i>Create New Mission
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="mission-form">
+                    {{ form.hidden_tag() }}
+                    
+                    <!-- Mission Basic Info -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-space-cyan">
+                                <i class="fas fa-info-circle me-2"></i>Mission Information
+                            </h5>
+                            <hr>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.name.id }}" class="form-label">
+                                <i class="fas fa-tag me-1"></i>Mission Name
+                            </label>
+                            {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                            {% if form.name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.name.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.destination.id }}" class="form-label">
+                                <i class="fas fa-map-marker-alt me-1"></i>Destination
+                            </label>
+                            {{ form.destination(class="form-select" + (" is-invalid" if form.destination.errors else "")) }}
+                            {% if form.destination.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.destination.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.description.id }}" class="form-label">
+                            <i class="fas fa-align-left me-1"></i>Description
+                        </label>
+                        {{ form.description(class="form-control" + (" is-invalid" if form.description.errors else ""), rows="3") }}
+                        {% if form.description.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Optional: Brief description of mission objectives</div>
+                    </div>
+                    
+                    <!-- Mission Parameters -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-space-cyan">
+                                <i class="fas fa-cogs me-2"></i>Mission Parameters
+                            </h5>
+                            <hr>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="{{ form.launch_date.id }}" class="form-label">
+                                <i class="fas fa-calendar me-1"></i>Launch Date
+                            </label>
+                            {{ form.launch_date(class="form-control" + (" is-invalid" if form.launch_date.errors else "")) }}
+                            {% if form.launch_date.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.launch_date.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="{{ form.mission_duration.id }}" class="form-label">
+                                <i class="fas fa-clock me-1"></i>Duration (days)
+                            </label>
+                            {{ form.mission_duration(class="form-control" + (" is-invalid" if form.mission_duration.errors else "")) }}
+                            {% if form.mission_duration.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.mission_duration.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="{{ form.crew_size.id }}" class="form-label">
+                                <i class="fas fa-users me-1"></i>Crew Size
+                            </label>
+                            {{ form.crew_size(class="form-control" + (" is-invalid" if form.crew_size.errors else "")) }}
+                            {% if form.crew_size.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.crew_size.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">0 for unmanned missions</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Spacecraft and Resources -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-space-cyan">
+                                <i class="fas fa-space-shuttle me-2"></i>Spacecraft & Resources
+                            </h5>
+                            <hr>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.spacecraft_type.id }}" class="form-label">
+                            <i class="fas fa-shuttle-space me-1"></i>Spacecraft Type
+                        </label>
+                        {{ form.spacecraft_type(class="form-select" + (" is-invalid" if form.spacecraft_type.errors else "")) }}
+                        {% if form.spacecraft_type.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.spacecraft_type.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.payload_mass.id }}" class="form-label">
+                                <i class="fas fa-weight me-1"></i>Payload Mass (kg)
+                            </label>
+                            {{ form.payload_mass(class="form-control" + (" is-invalid" if form.payload_mass.errors else "")) }}
+                            {% if form.payload_mass.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.payload_mass.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Optional: Scientific instruments, supplies</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.fuel_requirements.id }}" class="form-label">
+                                <i class="fas fa-gas-pump me-1"></i>Fuel Requirements (kg)
+                            </label>
+                            {{ form.fuel_requirements(class="form-control" + (" is-invalid" if form.fuel_requirements.errors else "")) }}
+                            {% if form.fuel_requirements.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.fuel_requirements.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Optional: Estimated fuel needed</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mission Preview -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card space-glow" style="background: linear-gradient(135deg, rgba(0, 204, 255, 0.05), rgba(102, 51, 204, 0.05)); border: 1px solid rgba(0, 204, 255, 0.2);">
+                                <div class="card-body">
+                                    <h6 class="card-title cosmic-text">
+                                        <i class="fas fa-eye me-2"></i>Mission Preview
+                                    </h6>
+                                    <div id="mission-preview">
+                                        <p class="text-space-silver">Fill in the form to see mission preview</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mission Tips -->
+<div class="row mt-4">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>Mission Planning Tips
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-map-marker-alt me-2"></i>Destination Selection</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Mars:</strong> 26-month launch windows</li>
+                            <li><strong>Moon:</strong> Launch anytime</li>
+                            <li><strong>Venus:</strong> 19-month windows</li>
+                            <li><strong>Outer planets:</strong> Complex trajectories</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-rocket me-2"></i>Mission Duration</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Moon:</strong> 7-30 days typical</li>
+                            <li><strong>Mars:</strong> 500-1000 days</li>
+                            <li><strong>Venus:</strong> 300-500 days</li>
+                            <li><strong>Outer planets:</strong> 2000+ days</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/mission-form.js') }}"></script>
+{% endblock %}

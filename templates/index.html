@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}AstroMission - Dashboard{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold">
+                <i class="fas fa-rocket me-3"></i>AstroMission
+            </h1>
+            <p class="lead text-space-silver">
+                Plan, simulate, and analyze space missions with cutting-edge AI technology 
+                and real-time NASA data integration.
+            </p>
+            <div class="mt-4">
+                <a href="{{ url_for('mission.create') }}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-plus me-2"></i>Create New Mission
+                </a>
+                <a href="{{ url_for('mission.history') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-history me-2"></i>View History
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="text-center">
+                <div class="card space-glow" style="background: linear-gradient(135deg, rgba(0, 204, 255, 0.05), rgba(102, 51, 204, 0.05)); border: 1px solid rgba(0, 204, 255, 0.2); padding: 3rem;">
+                    <i class="fas fa-satellite fa-8x text-space-cyan mb-4" style="animation: floatSlow 6s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(0, 204, 255, 0.5));"></i>
+                    <h3 class="cosmic-text mb-3">Mission Control Center</h3>
+                    <p class="text-space-silver mb-0">Enterprise-grade space mission simulation platform</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mt-5">
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-rocket fa-2x text-primary mb-3"></i>
+                <h3 class="card-title">{{ statistics.total_missions or 0 }}</h3>
+                <p class="card-text text-muted">Total Missions</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-check-circle fa-2x text-success mb-3"></i>
+                <h3 class="card-title">{{ statistics.completed_missions or 0 }}</h3>
+                <p class="card-text text-muted">Completed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-percentage fa-2x text-info mb-3"></i>
+                <h3 class="card-title">{{ "%.1f"|format(statistics.success_rate or 0) }}%</h3>
+                <p class="card-text text-muted">Success Rate</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-chart-line fa-2x text-warning mb-3"></i>
+                <h3 class="card-title">{{ statistics.average_feasibility or 0 }}%</h3>
+                <p class="card-text text-muted">Avg. Feasibility</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card feature-card h-100">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="fas fa-brain fa-3x text-space-cyan"></i>
+                </div>
+                <h5 class="card-title cosmic-text">AI-Powered Analysis</h5>
+                <p class="card-text">
+                    Advanced AI analysis using OpenAI GPT-4o for comprehensive mission 
+                    feasibility assessment and risk evaluation.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature-card h-100">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="fas fa-satellite fa-3x text-space-green"></i>
+                </div>
+                <h5 class="card-title cosmic-text">Real-Time NASA Data</h5>
+                <p class="card-text">
+                    Live integration with NASA JPL Horizons API for accurate orbital 
+                    mechanics data and planetary information.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature-card h-100">
+            <div class="card-body">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-area fa-3x text-space-gold"></i>
+                </div>
+                <h5 class="card-title cosmic-text">Interactive Visualization</h5>
+                <p class="card-text">
+                    Comprehensive mission reports with interactive charts, risk 
+                    assessments, and optimization recommendations.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Missions -->
+{% if recent_missions %}
+<div class="row mt-5">
+    <div class="col-12">
+        <h2 class="mb-4 cosmic-text">
+            <i class="fas fa-history me-2"></i>Recent Missions
+        </h2>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Mission Name</th>
+                        <th>Destination</th>
+                        <th>Status</th>
+                        <th>Feasibility</th>
+                        <th>Risk Level</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mission in recent_missions %}
+                    <tr>
+                        <td>
+                            <strong>{{ mission.name }}</strong>
+                        </td>
+                        <td>
+                            <span class="badge bg-primary">{{ mission.destination }}</span>
+                        </td>
+                        <td>
+                            {% set status_color = 'secondary' %}
+                            {% if mission.status == 'Completed' %}
+                                {% set status_color = 'success' %}
+                            {% elif mission.status == 'Analyzing' %}
+                                {% set status_color = 'info' %}
+                            {% elif mission.status == 'Failed' %}
+                                {% set status_color = 'danger' %}
+                            {% endif %}
+                            <span class="badge bg-{{ status_color }}">{{ mission.status }}</span>
+                        </td>
+                        <td>
+                            {% if mission.feasibility_score != 'Not assessed' %}
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {{ mission.feasibility_score.replace('%', '') }}%">
+                                        {{ mission.feasibility_score }}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <span class="text-muted">Not assessed</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if mission.risk_level != 'Not assessed' %}
+                                {% set risk_color = 'success' %}
+                                {% if mission.risk_level == 'Medium' %}
+                                    {% set risk_color = 'warning' %}
+                                {% elif mission.risk_level == 'High' %}
+                                    {% set risk_color = 'danger' %}
+                                {% elif mission.risk_level == 'Critical' %}
+                                    {% set risk_color = 'danger' %}
+                                {% endif %}
+                                <span class="badge bg-{{ risk_color }}">{{ mission.risk_level }}</span>
+                            {% else %}
+                                <span class="text-muted">Not assessed</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ mission.created_at }}</td>
+                        <td>
+                            <a href="{{ url_for('mission.view', mission_id=mission.id) }}" 
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('mission.history') }}" class="btn btn-outline-primary">
+                <i class="fas fa-list me-2"></i>View All Missions
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Getting Started -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card space-glow" style="background: linear-gradient(135deg, rgba(0, 204, 255, 0.08), rgba(102, 51, 204, 0.08)); border: 1px solid rgba(0, 204, 255, 0.2);">
+            <div class="card-body text-center" style="padding: 3rem;">
+                <h3 class="card-title cosmic-text mb-4">
+                    <i class="fas fa-rocket me-2"></i>Ready to Launch Your Mission?
+                </h3>
+                <p class="card-text text-space-silver mb-4" style="font-size: 1.1rem;">
+                    Start planning your space mission with our advanced simulation platform. 
+                    Get instant AI-powered analysis backed by real NASA data.
+                </p>
+                <div class="mt-4">
+                    <a href="{{ url_for('mission.create') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-plus me-2"></i>Create Your First Mission
+                    </a>
+                    <a href="{{ url_for('main.about') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-info-circle me-2"></i>Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add any dashboard-specific JavaScript here
+    console.log('AstroMissionSim Dashboard loaded');
+});
+</script>
+{% endblock %}

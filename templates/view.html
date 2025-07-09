@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}{{ mission.name }} - AstroMissionSim{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Mission Header -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-rocket me-2"></i>{{ mission.name }}
+                    </h3>
+                    <div>
+                        {% set status_color = 'secondary' %}
+                        {% if mission.status == 'Completed' %}
+                            {% set status_color = 'success' %}
+                        {% elif mission.status == 'Analyzing' %}
+                            {% set status_color = 'info' %}
+                        {% elif mission.status == 'Failed' %}
+                            {% set status_color = 'danger' %}
+                        {% endif %}
+                        <span class="badge bg-{{ status_color }} fs-6">{{ mission.status }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if mission.description %}
+                <p class="lead">{{ mission.description }}</p>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-map-marker-alt me-2"></i>Destination</h6>
+                        <p class="mb-3">{{ mission.destination }}</p>
+                        
+                        <h6><i class="fas fa-calendar me-2"></i>Launch Date</h6>
+                        <p class="mb-3">{{ mission.launch_date }}</p>
+                        
+                        <h6><i class="fas fa-users me-2"></i>Crew Size</h6>
+                        <p class="mb-3">{{ mission.crew_size }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-clock me-2"></i>Duration</h6>
+                        <p class="mb-3">{{ mission.mission_duration }}</p>
+                        
+                        <h6><i class="fas fa-shuttle-space me-2"></i>Spacecraft</h6>
+                        <p class="mb-3">{{ mission.spacecraft_type }}</p>
+                        
+                        <h6><i class="fas fa-chart-line me-2"></i>Feasibility</h6>
+                        <p class="mb-3">{{ mission.feasibility_score }}</p>
+                    </div>
+                </div>
+                
+                <!-- Analysis Actions -->
+                <div class="mt-4">
+                    {% if mission.status == 'Draft' %}
+                    <form method="POST" action="{{ url_for('mission.analyze', mission_id=mission.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-play me-2"></i>Start Analysis
+                        </button>
+                    </form>
+                    {% elif mission.status == 'Analyzing' %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Analysis in progress...
+                    </div>
+                    {% elif mission.status == 'Completed' %}
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('mission.results', mission_id=mission.id) }}" class="btn btn-primary">
+                            <i class="fas fa-chart-area me-2"></i>View Results
+                        </a>
+                        <a href="{{ url_for('mission.report', mission_id=mission.id) }}" class="btn btn-outline-primary">
+                            <i class="fas fa-file-pdf me-2"></i>Generate Report
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Analysis Results -->
+        {% if ai_analysis %}
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-brain me-2"></i>AI Analysis Results
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Feasibility Score</h6>
+                        <div class="progress mb-2" style="height: 25px;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ ai_analysis.feasibility_score.replace('%', '') }}%">
+                                {{ ai_analysis.feasibility_score }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Risk Level</h6>
+                        {% set risk_color = 'success' %}
+                        {% if ai_analysis.risk_level == 'Medium' %}
+                            {% set risk_color = 'warning' %}
+                        {% elif ai_analysis.risk_level == 'High' %}
+                            {% set risk_color = 'danger' %}
+                        {% elif ai_analysis.risk_level == 'Critical' %}
+                            {% set risk_color = 'danger' %}
+                        {% endif %}
+                        <span class="badge bg-{{ risk_color }} fs-6">{{ ai_analysis.risk_level }}</span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <h6>Summary</h6>
+                    <p>{{ ai_analysis.summary }}</p>
+                </div>
+                
+                {% if ai_analysis.recommendations %}
+                <div class="mb-3">
+                    <h6>Recommendations</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for recommendation in ai_analysis.recommendations %}
+                        <li class="list-group-item">
+                            <i class="fas fa-lightbulb me-2 text-warning"></i>{{ recommendation }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Mission Stats -->
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>Mission Stats
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <small class="text-muted">Created</small>
+                    <br>{{ mission.created_at }}
+                </div>
+                
+                {% if mission.analyzed_at != 'Not analyzed' %}
+                <div class="mb-3">
+                    <small class="text-muted">Analyzed</small>
+                    <br>{{ mission.analyzed_at }}
+                </div>
+                {% endif %}
+                
+                {% if mission.payload_mass != 'Not specified' %}
+                <div class="mb-3">
+                    <small class="text-muted">Payload Mass</small>
+                    <br>{{ mission.payload_mass }}
+                </div>
+                {% endif %}
+                
+                {% if mission.fuel_requirements != 'Not specified' %}
+                <div class="mb-3">
+                    <small class="text-muted">Fuel Requirements</small>
+                    <br>{{ mission.fuel_requirements }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- NASA Data -->
+        {% if nasa_data %}
+        <div class="card mt-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-satellite me-2"></i>NASA Data
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <small class="text-muted">Data Source</small>
+                    <br>{{ nasa_data.data_source }}
+                </div>
+                
+                <div class="mb-3">
+                    <small class="text-muted">Retrieved</small>
+                    <br>{{ nasa_data.retrieved_at }}
+                </div>
+                
+                {% if nasa_data.orbital_parameters %}
+                <div class="mb-3">
+                    <small class="text-muted">Distance from Earth</small>
+                    <br>{{ nasa_data.orbital_parameters.distance_from_earth }}
+                </div>
+                
+                <div class="mb-3">
+                    <small class="text-muted">Velocity</small>
+                    <br>{{ nasa_data.orbital_parameters.velocity_magnitude }}
+                </div>
+                {% endif %}
+                
+                {% if nasa_data.mission_window %}
+                <div class="alert alert-info">
+                    <small><strong>Launch Window:</strong> {{ nasa_data.mission_window.recommendation }}</small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Quick Actions -->
+        <div class="card mt-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tools me-2"></i>Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('mission.history') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-history me-2"></i>All Missions
+                    </a>
+                    <a href="{{ url_for('mission.create') }}" class="btn btn-outline-success">
+                        <i class="fas fa-plus me-2"></i>New Mission
+                    </a>
+                    {% if mission.status == 'Completed' %}
+                    <button class="btn btn-outline-info" onclick="shareMission()">
+                        <i class="fas fa-share me-2"></i>Share Mission
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function shareMission() {
+    const url = window.location.href;
+    const title = "{{ mission.name }} - AstroMissionSim";
+    
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            url: url
+        });
+    } else {
+        navigator.clipboard.writeText(url).then(function() {
+            alert('Mission URL copied to clipboard!');
+        });
+    }
+}
+
+// Auto-refresh for analyzing missions
+{% if mission.status == 'Analyzing' %}
+setTimeout(function() {
+    location.reload();
+}, 10000); // Refresh every 10 seconds
+{% endif %}
+</script>
+{% endblock %}

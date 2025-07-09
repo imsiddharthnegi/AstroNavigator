@@ -1,0 +1,442 @@
+{% extends "base.html" %}
+
+{% block title %}Mission History - AstroMissionSim{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-history me-2"></i>Mission History
+                    </h3>
+                    <div>
+                        <a href="{{ url_for('mission.create') }}" class="btn btn-light">
+                            <i class="fas fa-plus me-2"></i>New Mission
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if missions %}
+                    <!-- Filter Controls -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <select class="form-select" id="statusFilter">
+                                <option value="">All Statuses</option>
+                                <option value="draft">Draft</option>
+                                <option value="analyzing">Analyzing</option>
+                                <option value="completed">Completed</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="destinationFilter">
+                                <option value="">All Destinations</option>
+                                <option value="mars">Mars</option>
+                                <option value="moon">Moon</option>
+                                <option value="venus">Venus</option>
+                                <option value="jupiter">Jupiter</option>
+                                <option value="saturn">Saturn</option>
+                                <option value="asteroid_belt">Asteroid Belt</option>
+                                <option value="europa">Europa</option>
+                                <option value="titan">Titan</option>
+                                <option value="enceladus">Enceladus</option>
+                                <option value="io">Io</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="riskFilter">
+                                <option value="">All Risk Levels</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search missions...">
+                                <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Missions Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selectAll" class="form-check-input">
+                                    </th>
+                                    <th>Mission Name</th>
+                                    <th>Destination</th>
+                                    <th>Launch Date</th>
+                                    <th>Duration</th>
+                                    <th>Crew</th>
+                                    <th>Status</th>
+                                    <th>Feasibility</th>
+                                    <th>Risk Level</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mission in missions %}
+                                <tr class="mission-row" 
+                                    data-status="{{ mission.status.lower() }}"
+                                    data-destination="{{ mission.destination.lower() }}"
+                                    data-risk="{{ mission.risk_level.lower() }}"
+                                    data-name="{{ mission.name.lower() }}">
+                                    <td>
+                                        <input type="checkbox" class="form-check-input mission-checkbox" 
+                                               value="{{ mission.id }}">
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('mission.view', mission_id=mission.id) }}" 
+                                           class="text-decoration-none">
+                                            <strong>{{ mission.name }}</strong>
+                                        </a>
+                                        {% if mission.description %}
+                                        <br><small class="text-muted">{{ mission.description[:100] }}{% if mission.description|length > 100 %}...{% endif %}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">{{ mission.destination }}</span>
+                                    </td>
+                                    <td>{{ mission.launch_date }}</td>
+                                    <td>{{ mission.mission_duration }}</td>
+                                    <td>
+                                        <i class="fas fa-users me-1"></i>{{ mission.crew_size }}
+                                    </td>
+                                    <td>
+                                        {% set status_color = 'secondary' %}
+                                        {% if mission.status == 'Completed' %}
+                                            {% set status_color = 'success' %}
+                                        {% elif mission.status == 'Analyzing' %}
+                                            {% set status_color = 'info' %}
+                                        {% elif mission.status == 'Failed' %}
+                                            {% set status_color = 'danger' %}
+                                        {% endif %}
+                                        <span class="badge bg-{{ status_color }}">{{ mission.status }}</span>
+                                    </td>
+                                    <td>
+                                        {% if mission.feasibility_score != 'Not assessed' %}
+                                            <div class="progress" style="height: 20px; width: 80px;">
+                                                <div class="progress-bar" role="progressbar" 
+                                                     style="width: {{ mission.feasibility_score.replace('%', '') }}%">
+                                                    {{ mission.feasibility_score }}
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <span class="text-muted">Not assessed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if mission.risk_level != 'Not assessed' %}
+                                            {% set risk_color = 'success' %}
+                                            {% if mission.risk_level == 'Medium' %}
+                                                {% set risk_color = 'warning' %}
+                                            {% elif mission.risk_level == 'High' %}
+                                                {% set risk_color = 'danger' %}
+                                            {% elif mission.risk_level == 'Critical' %}
+                                                {% set risk_color = 'danger' %}
+                                            {% endif %}
+                                            <span class="badge bg-{{ risk_color }}">{{ mission.risk_level }}</span>
+                                        {% else %}
+                                            <span class="text-muted">Not assessed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ mission.created_at }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ url_for('mission.view', mission_id=mission.id) }}" 
+                                               class="btn btn-sm btn-outline-primary" title="View">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {% if mission.status == 'Completed' %}
+                                            <a href="{{ url_for('mission.results', mission_id=mission.id) }}" 
+                                               class="btn btn-sm btn-outline-success" title="Results">
+                                                <i class="fas fa-chart-area"></i>
+                                            </a>
+                                            <a href="{{ url_for('mission.report', mission_id=mission.id) }}" 
+                                               class="btn btn-sm btn-outline-info" title="Report">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Bulk Actions -->
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary" id="compareBtn" disabled>
+                                    <i class="fas fa-balance-scale me-2"></i>Compare Selected
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="exportBtn" disabled>
+                                    <i class="fas fa-download me-2"></i>Export Selected
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-end">
+                                <span id="selectedCount">0</span> missions selected
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if pagination %}
+                    <nav aria-label="Mission pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if pagination.has_prev %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('mission.history', page=pagination.prev_num) }}">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+                            </li>
+                            {% endif %}
+
+                            {% for page_num in pagination.iter_pages() %}
+                                {% if page_num %}
+                                    {% if page_num != pagination.page %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('mission.history', page=page_num) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page_num }}</span>
+                                    </li>
+                                    {% endif %}
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if pagination.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('mission.history', page=pagination.next_num) }}">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+
+                {% else %}
+                    <!-- Empty State -->
+                    <div class="text-center py-5">
+                        <i class="fas fa-rocket fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">No missions found</h4>
+                        <p class="text-muted">Start your space exploration journey by creating your first mission.</p>
+                        <a href="{{ url_for('mission.create') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-plus me-2"></i>Create Your First Mission
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mission Statistics -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-rocket fa-2x text-primary mb-2"></i>
+                <h4>{{ missions|length }}</h4>
+                <p class="text-muted">Total Missions</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                <h4>{{ missions|selectattr('status', 'equalto', 'Completed')|list|length }}</h4>
+                <p class="text-muted">Completed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-spinner fa-2x text-info mb-2"></i>
+                <h4>{{ missions|selectattr('status', 'equalto', 'Analyzing')|list|length }}</h4>
+                <p class="text-muted">Analyzing</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
+                <h4>{{ missions|selectattr('status', 'equalto', 'Failed')|list|length }}</h4>
+                <p class="text-muted">Failed</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter functionality
+    const statusFilter = document.getElementById('statusFilter');
+    const destinationFilter = document.getElementById('destinationFilter');
+    const riskFilter = document.getElementById('riskFilter');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const missionCheckboxes = document.querySelectorAll('.mission-checkbox');
+    const compareBtn = document.getElementById('compareBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const selectedCount = document.getElementById('selectedCount');
+
+    // Filter missions
+    function filterMissions() {
+        const statusValue = statusFilter.value.toLowerCase();
+        const destinationValue = destinationFilter.value.toLowerCase();
+        const riskValue = riskFilter.value.toLowerCase();
+        const searchValue = searchInput.value.toLowerCase();
+
+        document.querySelectorAll('.mission-row').forEach(row => {
+            const status = row.dataset.status;
+            const destination = row.dataset.destination;
+            const risk = row.dataset.risk;
+            const name = row.dataset.name;
+
+            const statusMatch = !statusValue || status === statusValue;
+            const destinationMatch = !destinationValue || destination === destinationValue;
+            const riskMatch = !riskValue || risk === riskValue;
+            const searchMatch = !searchValue || name.includes(searchValue);
+
+            if (statusMatch && destinationMatch && riskMatch && searchMatch) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Event listeners for filters
+    statusFilter.addEventListener('change', filterMissions);
+    destinationFilter.addEventListener('change', filterMissions);
+    riskFilter.addEventListener('change', filterMissions);
+    searchInput.addEventListener('input', filterMissions);
+    searchBtn.addEventListener('click', filterMissions);
+
+    // Select all functionality
+    selectAllCheckbox.addEventListener('change', function() {
+        missionCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateBulkActions();
+    });
+
+    // Individual checkbox functionality
+    missionCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateBulkActions();
+            
+            // Update select all checkbox
+            const checkedCount = document.querySelectorAll('.mission-checkbox:checked').length;
+            selectAllCheckbox.checked = checkedCount === missionCheckboxes.length;
+            selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < missionCheckboxes.length;
+        });
+    });
+
+    // Update bulk action buttons
+    function updateBulkActions() {
+        const checkedBoxes = document.querySelectorAll('.mission-checkbox:checked');
+        const count = checkedBoxes.length;
+        
+        selectedCount.textContent = count;
+        compareBtn.disabled = count < 2;
+        exportBtn.disabled = count === 0;
+    }
+
+    // Compare missions
+    compareBtn.addEventListener('click', function() {
+        const selectedMissions = Array.from(document.querySelectorAll('.mission-checkbox:checked'))
+            .map(cb => cb.value);
+        
+        if (selectedMissions.length >= 2) {
+            const params = selectedMissions.map(id => `missions=${id}`).join('&');
+            window.location.href = `{{ url_for('mission.compare') }}?${params}`;
+        }
+    });
+
+    // Export missions
+    exportBtn.addEventListener('click', function() {
+        const selectedMissions = Array.from(document.querySelectorAll('.mission-checkbox:checked'))
+            .map(cb => cb.value);
+        
+        if (selectedMissions.length > 0) {
+            // Create export data
+            const exportData = selectedMissions.map(id => {
+                const row = document.querySelector(`input[value="${id}"]`).closest('tr');
+                return {
+                    id: id,
+                    name: row.dataset.name,
+                    status: row.dataset.status,
+                    destination: row.dataset.destination,
+                    risk: row.dataset.risk
+                };
+            });
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'missions-export.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    });
+
+    // Clear filters button
+    function clearFilters() {
+        statusFilter.value = '';
+        destinationFilter.value = '';
+        riskFilter.value = '';
+        searchInput.value = '';
+        filterMissions();
+    }
+
+    // Add clear filters button
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'btn btn-outline-secondary ms-2';
+    clearBtn.innerHTML = '<i class="fas fa-times"></i> Clear Filters';
+    clearBtn.addEventListener('click', clearFilters);
+    document.querySelector('.col-md-3:last-child .input-group').appendChild(clearBtn);
+});
+</script>
+{% endblock %}

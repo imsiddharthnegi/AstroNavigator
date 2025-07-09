@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+
+{% block title %}{{ mission.name }} - Analysis Results{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Mission Header -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-chart-area me-2"></i>{{ mission.name }} - Analysis Results
+                    </h3>
+                    <div>
+                        <a href="{{ url_for('mission.view', mission_id=mission.id) }}" class="btn btn-outline-light">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Mission
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h2 class="text-primary">{{ analysis.feasibility_score }}</h2>
+                            <p class="text-muted">Feasibility Score</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            {% set risk_color = 'success' %}
+                            {% if analysis.risk_level == 'Medium' %}
+                                {% set risk_color = 'warning' %}
+                            {% elif analysis.risk_level == 'High' %}
+                                {% set risk_color = 'danger' %}
+                            {% elif analysis.risk_level == 'Critical' %}
+                                {% set risk_color = 'danger' %}
+                            {% endif %}
+                            <span class="badge bg-{{ risk_color }} fs-4">{{ analysis.risk_level }}</span>
+                            <p class="text-muted mt-2">Risk Level</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h4 class="text-info">{{ mission.destination }}</h4>
+                            <p class="text-muted">Destination</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h4 class="text-warning">{{ mission.mission_duration }}</h4>
+                            <p class="text-muted">Duration</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Technical Analysis -->
+        {% if analysis.technical_analysis %}
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-cogs me-2"></i>Technical Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-route me-2"></i>Trajectory</h6>
+                        <p>{{ analysis.technical_analysis.trajectory }}</p>
+                        
+                        <h6><i class="fas fa-rocket me-2"></i>Propulsion</h6>
+                        <p>{{ analysis.technical_analysis.propulsion }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-heartbeat me-2"></i>Life Support</h6>
+                        <p>{{ analysis.technical_analysis.life_support }}</p>
+                        
+                        <h6><i class="fas fa-wifi me-2"></i>Communication</h6>
+                        <p>{{ analysis.technical_analysis.communication }}</p>
+                    </div>
+                </div>
+                
+                {% if analysis.technical_analysis.landing %}
+                <div class="mt-3">
+                    <h6><i class="fas fa-parachute-box me-2"></i>Landing/Docking</h6>
+                    <p>{{ analysis.technical_analysis.landing }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Risk Assessment -->
+        {% if analysis.risk_assessment %}
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Risk Assessment
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if analysis.risk_assessment.primary_risks %}
+                <div class="mb-3">
+                    <h6>Primary Risks</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for risk in analysis.risk_assessment.primary_risks %}
+                        <li class="list-group-item">
+                            <i class="fas fa-exclamation-circle me-2 text-warning"></i>{{ risk }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-radiation me-2"></i>Radiation Exposure</h6>
+                        <p>{{ analysis.risk_assessment.radiation_exposure }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-meteor me-2"></i>Micrometeorite Risk</h6>
+                        <p>{{ analysis.risk_assessment.micrometeorite_risk }}</p>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6><i class="fas fa-tools me-2"></i>System Failures</h6>
+                    <p>{{ analysis.risk_assessment.system_failures }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Resource Requirements -->
+        {% if analysis.resource_requirements %}
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-boxes me-2"></i>Resource Requirements
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <h6><i class="fas fa-gas-pump me-2"></i>Fuel Estimate</h6>
+                            <p>{{ analysis.resource_requirements.fuel_estimate }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6><i class="fas fa-bolt me-2"></i>Power Requirements</h6>
+                            <p>{{ analysis.resource_requirements.power_requirements }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <h6><i class="fas fa-tint me-2"></i>Water Requirements</h6>
+                            <p>{{ analysis.resource_requirements.water_requirements }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6><i class="fas fa-utensils me-2"></i>Food Requirements</h6>
+                            <p>{{ analysis.resource_requirements.food_requirements }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Mission Timeline -->
+        {% if analysis.timeline %}
+        <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock me-2"></i>Mission Timeline
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <h6><i class="fas fa-calendar-plus me-2"></i>Launch Preparation</h6>
+                            <p>{{ analysis.timeline.launch_preparation }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6><i class="fas fa-route me-2"></i>Transit Time</h6>
+                            <p>{{ analysis.timeline.transit_time }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <h6><i class="fas fa-tasks me-2"></i>Mission Operations</h6>
+                            <p>{{ analysis.timeline.mission_operations }}</p>
+                        </div>
+                        
+                        {% if analysis.timeline.return_time %}
+                        <div class="mb-3">
+                            <h6><i class="fas fa-home me-2"></i>Return Time</h6>
+                            <p>{{ analysis.timeline.return_time }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Analysis Summary -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clipboard-check me-2"></i>Analysis Summary
+                </h5>
+            </div>
+            <div class="card-body">
+                <p>{{ analysis.summary }}</p>
+                
+                <div class="mt-3">
+                    <small class="text-muted">Analysis Model</small>
+                    <br>{{ analysis.ai_model }}
+                </div>
+                
+                <div class="mt-3">
+                    <small class="text-muted">Generated</small>
+                    <br>{{ analysis.analysis_timestamp }}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recommendations -->
+        {% if analysis.recommendations %}
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>Recommendations
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for recommendation in analysis.recommendations %}
+                    <li class="list-group-item">
+                        <i class="fas fa-arrow-right me-2 text-info"></i>{{ recommendation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- NASA Data Summary -->
+        {% if nasa_data %}
+        <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-satellite me-2"></i>NASA Data Summary
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <small class="text-muted">Data Source</small>
+                    <br>{{ nasa_data.data_source }}
+                </div>
+                
+                {% if nasa_data.orbital_parameters %}
+                <div class="mb-3">
+                    <small class="text-muted">Distance from Earth</small>
+                    <br>{{ nasa_data.orbital_parameters.distance_from_earth }}
+                </div>
+                {% endif %}
+                
+                {% if nasa_data.mission_window %}
+                <div class="alert alert-info">
+                    <small><strong>Launch Window:</strong> {{ nasa_data.mission_window.recommendation }}</small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Actions -->
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tools me-2"></i>Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('mission.report', mission_id=mission.id) }}" class="btn btn-primary">
+                        <i class="fas fa-file-pdf me-2"></i>Generate Report
+                    </a>
+                    <button class="btn btn-outline-secondary" onclick="printResults()">
+                        <i class="fas fa-print me-2"></i>Print Results
+                    </button>
+                    <button class="btn btn-outline-info" onclick="exportData()">
+                        <i class="fas fa-download me-2"></i>Export Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function printResults() {
+    window.print();
+}
+
+function exportData() {
+    const data = {
+        mission: {
+            name: "{{ mission.name }}",
+            destination: "{{ mission.destination }}",
+            feasibility_score: "{{ analysis.feasibility_score }}",
+            risk_level: "{{ analysis.risk_level }}"
+        },
+        analysis: {{ analysis|tojson|safe }},
+        nasa_data: {{ nasa_data|tojson|safe }}
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '{{ mission.name }}-analysis.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// Create feasibility chart
+document.addEventListener('DOMContentLoaded', function() {
+    const feasibilityScore = {{ analysis.feasibility_score.replace('%', '') }};
+    
+    // You can add Chart.js visualization here if needed
+    console.log('Results loaded for mission with feasibility score:', feasibilityScore);
+});
+</script>
+{% endblock %}
