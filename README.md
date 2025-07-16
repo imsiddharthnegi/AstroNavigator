@@ -116,12 +116,10 @@ This project is licensed under the [MIT License](LICENSE).
 
 - **Author:** [imsiddharthnegi](https://github.com/imsiddharthnegi)
 - **Issues:** [GitHub Issues](https://github.com/imsiddharthnegi/AstroNavigator/issues)
-- **Email:** your.email@example.com
+- **Email:** work.siddharthnegii@gmail.com
 
 ---
 
 <!-- Feel free to modify this template to better fit your project details! -->
 
 ---
-
-Let me know if you want more customization or wish to include badges, more technical details, or additional sections!
